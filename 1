@@ -1,0 +1,26 @@
+from  sklearn.cluster import KMeans
+from sklearn import metrics
+#直接调用函数，循环
+def k_silhouette(x_train, clusters):
+    K = range(2,clusters+1)
+ # 构建空列表，用于存储不同簇数下的轮廓系数
+    S = []
+    for k in K:
+        kmeans = KMeans(n_clusters=k)
+        kmeans.fit(x_train)
+        labels = kmeans.labels_
+ # 调用子模块metrics中的silhouette_score函数，计算轮廓系数
+        S.append(metrics.silhouette_score(x_train,labels, metric='euclidean'))
+    
+    plt.rcParams['axes.unicode_minus'] = False
+    # 设置绘图风格\n",
+    plt.style.use('ggplot') 
+    plt.plot(K, S, 'b*-')
+    plt.xlabel('cluster number')
+    plt.ylabel('silhouette coefficient')
+    # 显示图形
+    plt.show()
+    
+    # 自定义函数的调用\n
+k_silhouette(x_train, 20)
+
